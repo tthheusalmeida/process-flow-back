@@ -59,7 +59,9 @@ export class DepartmentsService {
       updatedAt: new Date(),
     };
 
-    this.departments[departmentIndex] = updatedDepartment;
+    this.departments = this.departments.map((d, i) =>
+      i === departmentIndex ? updatedDepartment : d,
+    );
     return updatedDepartment;
   }
 
