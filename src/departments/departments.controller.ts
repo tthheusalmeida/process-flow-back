@@ -11,10 +11,12 @@ import { DepartmentsService } from './departments.service';
 
 export class CreateDepartmentDto {
   id: string;
-  name: string;
-  description?: string;
-  createdAt: string;
-  updatedAt: string;
+  position: string;
+  type: string;
+  data: Date;
+  flowId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class UpdateDepartmentDto {

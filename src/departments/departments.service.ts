@@ -3,47 +3,27 @@ import {
   CreateDepartmentDto,
   UpdateDepartmentDto,
 } from './departments.controller';
+import { INode } from 'src/utils/consts';
 
 export interface IDepartment {
   id: string;
-  name: string;
-  description?: string;
+  position: string;
+  type: string;
+  data: Date;
+  flowId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 @Injectable()
 export class DepartmentsService {
-  private departments: IDepartment[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440010',
-      name: 'Human Resources',
-      description: 'Manages recruitment, employee relations, and HR policies',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440011',
-      name: 'Information Technology',
-      description:
-        'Handles IT infrastructure, software development, and technical support',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440012',
-      name: 'Finance',
-      description: 'Manages budgets, financial reporting, and accounting',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
-  ];
+  private departments: INode[] = [];
 
-  findAll(): IDepartment[] {
+  findAll(): INode[] {
     return this.departments;
   }
 
-  findOne(id: string): IDepartment {
+  findOne(id: string): INode {
     const department = this.departments.find((d) => d.id === id);
     if (!department) {
       throw new NotFoundException(`Department with ID ${id} not found`);
@@ -51,29 +31,29 @@ export class DepartmentsService {
     return department;
   }
 
-  create(createDepartmentDto: CreateDepartmentDto): IDepartment {
-    const newDepartment: IDepartment = {
-      id: createDepartmentDto.id,
-      name: createDepartmentDto.name,
-      description: createDepartmentDto.description,
+  findByFlowId(flowId: string): string[] {
+    return this.departments.filter((d) => d.flowId === flowId).map((d) => d.id);
+  }
+
+  create(createDepartmentDto: CreateDepartmentDto): INode {
+    const newDepartment: INode = {
+      ...createDepartmentDto,
       createdAt: new Date(createDepartmentDto.createdAt),
       updatedAt: new Date(createDepartmentDto.updatedAt),
     };
 
     this.departments.push(newDepartment);
+
     return newDepartment;
   }
 
-  update(
-    id: string,
-    updateDepartmentDto: Partial<UpdateDepartmentDto>,
-  ): IDepartment {
+  update(id: string, updateDepartmentDto: Partial<UpdateDepartmentDto>): INode {
     const departmentIndex = this.departments.findIndex((d) => d.id === id);
     if (departmentIndex === -1) {
       throw new NotFoundException(`Department with ID ${id} not found`);
     }
 
-    const updatedDepartment: IDepartment = {
+    const updatedDepartment: INode = {
       ...this.departments[departmentIndex],
       ...updateDepartmentDto,
       updatedAt: new Date(),

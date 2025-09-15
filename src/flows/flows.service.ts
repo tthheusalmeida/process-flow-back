@@ -1,5 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlowDto, UpdateFlowDto } from './flows.controller';
+import { DepartmentsService } from '../departments/departments.service';
+
+export interface IFlowNode {
+  departments: string[];
+  documents: string[];
+  owners: string[];
+  processes: string[];
+  tools: string[];
+}
 
 export interface IFlow {
   id: string;
@@ -8,8 +17,22 @@ export interface IFlow {
   updatedAt: Date;
 }
 
+export interface IFlowWithRelations {
+  id: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  departments: any[];
+  documents: any[];
+  processes: any[];
+  owners: any[];
+  tools: any[];
+}
+
 @Injectable()
 export class FlowsService {
+  constructor(private readonly departmentsService: DepartmentsService) {}
+
   private flows: IFlow[] = [
     {
       id: '550e8400-e29b-41d4-a716-446655440000',
@@ -17,22 +40,17 @@ export class FlowsService {
       createdAt: new Date('2025-01-01T10:00:00.000Z'),
       updatedAt: new Date('2025-01-02T15:30:00.000Z'),
     },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440001',
-      title: 'Performance Evaluation',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440002',
-      title: 'Termination',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
   ];
 
   findAll(): IFlow[] {
-    return this.flows;
+    return this.flows.map((flow) => ({
+      ...flow,
+      departments: this.departmentsService.findByFlowId(flow.id),
+      documents: [],
+      owners: [],
+      processes: [],
+      tools: [],
+    }));
   }
 
   findOne(id: string): IFlow {
@@ -58,7 +76,7 @@ export class FlowsService {
   update(id: string, updateFlowDto: Partial<UpdateFlowDto>): IFlow {
     const flowIndex = this.flows.findIndex((f) => f.id === id);
     if (flowIndex === -1) {
-      throw new NotFoundException(`IFlow with ID ${id} not found`);
+      throw new NotFoundException(`Flow with ID ${id} not found`);
     }
 
     const updatedFlow: IFlow = {
@@ -74,10 +92,10 @@ export class FlowsService {
   delete(id: string): { message: string } {
     const flowIndex = this.flows.findIndex((f) => f.id === id);
     if (flowIndex === -1) {
-      throw new NotFoundException(`IFlow with ID ${id} not found`);
+      throw new NotFoundException(`Flow with ID ${id} not found`);
     }
 
     this.flows.splice(flowIndex, 1);
-    return { message: `IFlow with ID ${id} has been deleted` };
+    return { message: `Flow with ID ${id} has been deleted` };
   }
 }
