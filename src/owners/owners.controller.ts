@@ -14,6 +14,7 @@ export class CreateOwnerDto {
   name: string;
   email: string;
   role?: string;
+  flowId: string;
   createdAt: string;
   updatedAt: string;
 }

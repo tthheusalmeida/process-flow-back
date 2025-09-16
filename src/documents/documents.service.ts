@@ -6,6 +6,7 @@ export interface IDocument {
   title: string;
   description?: string;
   url?: string;
+  flowId: string;
   type: string;
   createdAt: Date;
   updatedAt: Date;
@@ -13,35 +14,7 @@ export interface IDocument {
 
 @Injectable()
 export class DocumentsService {
-  private documents: IDocument[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440020',
-      title: 'Employee Handbook',
-      description: 'Comprehensive guide for all employees',
-      url: 'https://company.com/docs/handbook.pdf',
-      type: 'PDF',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440021',
-      title: 'Code of Conduct',
-      description: 'Company ethics and conduct guidelines',
-      url: 'https://company.com/docs/conduct.pdf',
-      type: 'PDF',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440022',
-      title: 'Safety Procedures',
-      description: 'Workplace safety guidelines and procedures',
-      url: 'https://company.com/docs/safety.pdf',
-      type: 'PDF',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
-  ];
+  private documents: IDocument[] = [];
 
   findAll(): IDocument[] {
     return this.documents;
@@ -55,13 +28,13 @@ export class DocumentsService {
     return document;
   }
 
+  findByFlowId(flowId: string): string[] {
+    return this.documents.filter((d) => d.flowId === flowId).map((d) => d.id);
+  }
+
   create(createDocumentDto: CreateDocumentDto): IDocument {
     const newDocument: IDocument = {
-      id: createDocumentDto.id,
-      title: createDocumentDto.title,
-      description: createDocumentDto.description,
-      url: createDocumentDto.url,
-      type: createDocumentDto.type,
+      ...createDocumentDto,
       createdAt: new Date(createDocumentDto.createdAt),
       updatedAt: new Date(createDocumentDto.updatedAt),
     };

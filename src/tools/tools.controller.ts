@@ -15,6 +15,7 @@ export class CreateToolDto {
   description?: string;
   url?: string;
   category: string;
+  flowId: string;
   createdAt: string;
   updatedAt: string;
 }

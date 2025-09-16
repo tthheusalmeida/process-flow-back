@@ -6,38 +6,14 @@ export interface IOwner {
   name: string;
   email: string;
   role?: string;
+  flowId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 @Injectable()
 export class OwnersService {
-  private owners: IOwner[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440040',
-      name: 'John Smith',
-      email: 'john.smith@company.com',
-      role: 'HR Manager',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440041',
-      name: 'Sarah Johnson',
-      email: 'sarah.johnson@company.com',
-      role: 'IT Director',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440042',
-      name: 'Mike Davis',
-      email: 'mike.davis@company.com',
-      role: 'Finance Manager',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
-  ];
+  private owners: IOwner[] = [];
 
   findAll(): IOwner[] {
     return this.owners;
@@ -51,12 +27,13 @@ export class OwnersService {
     return owner;
   }
 
+  findByFlowId(flowId: string): string[] {
+    return this.owners.filter((d) => d.flowId === flowId).map((d) => d.id);
+  }
+
   create(createOwnerDto: CreateOwnerDto): IOwner {
     const newOwner: IOwner = {
-      id: createOwnerDto.id,
-      name: createOwnerDto.name,
-      email: createOwnerDto.email,
-      role: createOwnerDto.role,
+      ...createOwnerDto,
       createdAt: new Date(createOwnerDto.createdAt),
       updatedAt: new Date(createOwnerDto.updatedAt),
     };

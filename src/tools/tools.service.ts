@@ -7,41 +7,14 @@ export interface ITool {
   description?: string;
   url?: string;
   category: string;
+  flowId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 @Injectable()
 export class ToolsService {
-  private tools: ITool[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440050',
-      name: 'BambooHR',
-      description: 'Human resources management system',
-      url: 'https://bamboohr.com',
-      category: 'HR Software',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440051',
-      name: 'Slack',
-      description: 'Team communication platform',
-      url: 'https://slack.com',
-      category: 'Communication',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440052',
-      name: 'Jira',
-      description: 'Project management and issue tracking',
-      url: 'https://atlassian.com/jira',
-      category: 'Project Management',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
-  ];
+  private tools: ITool[] = [];
 
   findAll(): ITool[] {
     return this.tools;
@@ -55,12 +28,13 @@ export class ToolsService {
     return tool;
   }
 
+  findByFlowId(flowId: string): string[] {
+    return this.tools.filter((d) => d.flowId === flowId).map((d) => d.id);
+  }
+
   create(createToolDto: CreateToolDto): ITool {
     const newTool: ITool = {
-      id: createToolDto.id,
-      name: createToolDto.name,
-      description: createToolDto.description,
-      url: createToolDto.url,
+      ...createToolDto,
       category: createToolDto.category,
       createdAt: new Date(createToolDto.createdAt),
       updatedAt: new Date(createToolDto.updatedAt),

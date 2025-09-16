@@ -14,6 +14,7 @@ export class CreateProcessDto {
   name: string;
   description?: string;
   status: string;
+  flowId: string;
   createdAt: string;
   updatedAt: string;
 }

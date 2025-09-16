@@ -15,6 +15,7 @@ export class CreateDocumentDto {
   description?: string;
   url?: string;
   type: string;
+  flowId: string;
   createdAt: string;
   updatedAt: string;
 }

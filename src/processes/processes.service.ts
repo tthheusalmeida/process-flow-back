@@ -6,38 +6,14 @@ export interface IProcess {
   name: string;
   description?: string;
   status: string;
+  flowId: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 @Injectable()
 export class ProcessesService {
-  private processes: IProcess[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440030',
-      name: 'Interview Process',
-      description: 'Step-by-step recruitment interview process',
-      status: 'active',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440031',
-      name: 'Onboarding',
-      description: 'New employee onboarding workflow',
-      status: 'active',
-      createdAt: new Date('2025-02-01T09:15:00.000Z'),
-      updatedAt: new Date('2025-02-02T18:45:00.000Z'),
-    },
-    {
-      id: '550e8400-e29b-41d4-a716-446655440032',
-      name: 'Performance Review',
-      description: 'Annual employee performance evaluation',
-      status: 'inactive',
-      createdAt: new Date('2025-03-01T08:20:00.000Z'),
-      updatedAt: new Date('2025-03-05T12:00:00.000Z'),
-    },
-  ];
+  private processes: IProcess[] = [];
 
   findAll(): IProcess[] {
     return this.processes;
@@ -51,12 +27,13 @@ export class ProcessesService {
     return process;
   }
 
+  findByFlowId(flowId: string): string[] {
+    return this.processes.filter((d) => d.flowId === flowId).map((d) => d.id);
+  }
+
   create(createProcessDto: CreateProcessDto): IProcess {
     const newProcess: IProcess = {
-      id: createProcessDto.id,
-      name: createProcessDto.name,
-      description: createProcessDto.description,
-      status: createProcessDto.status,
+      ...createProcessDto,
       createdAt: new Date(createProcessDto.createdAt),
       updatedAt: new Date(createProcessDto.updatedAt),
     };

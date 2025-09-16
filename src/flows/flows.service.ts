@@ -1,6 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlowDto, UpdateFlowDto } from './flows.controller';
 import { DepartmentsService } from '../departments/departments.service';
+import { DocumentsService } from 'src/documents/documents.service';
+import { OwnersService } from 'src/owners/owners.service';
+import { ProcessesService } from 'src/processes/processes.service';
+import { ToolsService } from 'src/tools/tools.service';
 
 export interface IFlowNode {
   departments: string[];
@@ -31,25 +35,24 @@ export interface IFlowWithRelations {
 
 @Injectable()
 export class FlowsService {
-  constructor(private readonly departmentsService: DepartmentsService) {}
+  constructor(
+    private readonly departmentsService: DepartmentsService,
+    private readonly documentsService: DocumentsService,
+    private readonly ownersService: OwnersService,
+    private readonly processesService: ProcessesService,
+    private readonly toolsService: ToolsService,
+  ) {}
 
-  private flows: IFlow[] = [
-    {
-      id: '550e8400-e29b-41d4-a716-446655440000',
-      title: 'Recruitment and Selection',
-      createdAt: new Date('2025-01-01T10:00:00.000Z'),
-      updatedAt: new Date('2025-01-02T15:30:00.000Z'),
-    },
-  ];
+  private flows: IFlow[] = [];
 
   findAll(): IFlow[] {
     return this.flows.map((flow) => ({
       ...flow,
       departments: this.departmentsService.findByFlowId(flow.id),
-      documents: [],
-      owners: [],
-      processes: [],
-      tools: [],
+      documents: this.documentsService.findByFlowId(flow.id),
+      owners: this.ownersService.findByFlowId(flow.id),
+      processes: this.processesService.findByFlowId(flow.id),
+      tools: this.toolsService.findByFlowId(flow.id),
     }));
   }
 
