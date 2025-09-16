@@ -77,6 +77,12 @@ Run development server:
 npm run start:dev
 ```
 
+Documentation will be available at:
+
+```
+http://localhost:3000/docs
+```
+
 ---
 
 <a id="scenario"></a>
