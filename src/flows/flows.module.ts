@@ -6,6 +6,7 @@ import { DocumentsModule } from 'src/documents/documents.module';
 import { OwnersModule } from 'src/owners/owners.module';
 import { ProcessesModule } from 'src/processes/processes.module';
 import { ToolsModule } from 'src/tools/tools.module';
+import { EdgesModule } from 'src/edges/edges.module';
 
 @Module({
   controllers: [FlowsController],
@@ -16,6 +17,7 @@ import { ToolsModule } from 'src/tools/tools.module';
     OwnersModule,
     ProcessesModule,
     ToolsModule,
+    EdgesModule,
   ],
   exports: [FlowsService],
 })

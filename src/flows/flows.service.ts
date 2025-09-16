@@ -5,6 +5,7 @@ import { DocumentsService } from 'src/documents/documents.service';
 import { OwnersService } from 'src/owners/owners.service';
 import { ProcessesService } from 'src/processes/processes.service';
 import { ToolsService } from 'src/tools/tools.service';
+import { EdgesService } from 'src/edges/edges.service';
 
 export interface IFlowNode {
   departments: string[];
@@ -41,6 +42,7 @@ export class FlowsService {
     private readonly ownersService: OwnersService,
     private readonly processesService: ProcessesService,
     private readonly toolsService: ToolsService,
+    private readonly edgesServices: EdgesService,
   ) {}
 
   private flows: IFlow[] = [];
@@ -53,6 +55,7 @@ export class FlowsService {
       owners: this.ownersService.findByFlowId(flow.id),
       processes: this.processesService.findByFlowId(flow.id),
       tools: this.toolsService.findByFlowId(flow.id),
+      edges: this.edgesServices.findByFlowId(flow.id),
     }));
   }
 
