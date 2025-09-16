@@ -1,98 +1,166 @@
+<h1 align="center" style="font-size: 64px">
+  Process Flow - Backend
+</h1>
+
+<p align="center">REST API built with NestJS to support the Process Flow frontend application. </p>
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+   <img src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/tthheusalmeida/process-flow-back/">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
+  </a>
+  <a href="https://github.com/tthheusalmeida/process-flow-back/blob/main/LICENSE">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" target="_blank" />
+  </a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# 🗂️ Table of Contents
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [About](#about)
+- [How To Use](#how-to-use)
+- [Scenario](#scenario)
+- [Technologies](#technologies)
+- [Architecture](#architecture)
+- [Entities](#entities)
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+<a id="about"></a>
 
-## Project setup
+## 📚 About
 
-```bash
-$ npm install
-```
+This is the **backend** of the **Process Flow** project, a tool to document and visualize company processes.  
+The backend provides REST APIs to manage **departments, processes, subprocesses, documents, owners, and tools**.  
+It is developed with **NestJS**, following a modular and scalable architecture.
 
-## Compile and run the project
+Key features:
 
-```bash
-# development
-$ npm run start
+- 📡 REST endpoints for all entities.
+- ⚡ In-memory persistence (no database required).
+- 🧩 Modular and extensible architecture.
+- 🔐 CORS configuration with support for multiple frontend URLs.
+- 🛠️ Code style enforced with ESLint and Prettier.
+- ✅ Unit and e2e tests with Jest and Supertest.
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+<a id="how-to-use"></a>
 
-## Run tests
+## ⚙️ How to Use
+
+Clone the project:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/tthheusalmeida/process-flow-back.git
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Install dependencies:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Set up environment variables in a `.env` file:
 
-## Resources
+```env
+# Server Configuration
+PORT=8080
+NODE_ENV=development
 
-Check out a few resources that may come in handy when working with NestJS:
+# Frontend URLs
+FRONTEND_URLS=http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Run development server:
 
-## Support
+```bash
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+<a id="scenario"></a>
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🏢 Scenario
 
-## License
+The backend solves the **business challenge** of disorganized processes by providing a structured and modular API.  
+It supports the frontend in enabling companies to:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- Register departments, processes, owners, tools, and documents.
+- Create relationships between entities.
+- Serve structured data for process visualization in the frontend.
+
+---
+
+<a id="technologies"></a>
+
+## 🚀 Technologies
+
+- [Node.js 20+](https://nodejs.org/)
+- [NestJS 11](https://nestjs.com/)
+- [TypeScript 5](https://www.typescriptlang.org/)
+- [RxJS](https://rxjs.dev/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/) (code style)
+
+---
+
+<a id="architecture"></a>
+
+## 🏗️ Architecture
+
+The backend is structured in **modules**, each responsible for a business entity.
+
+Example folder structure:
+
+```
+src
+ └── base
+     ├── departments
+     │   ├── departments.controller.ts
+     │   ├── departments.module.ts
+     │   └── departments.service.ts
+     ├── documents
+     ├── edges
+     ├── flows
+     ├── owners
+     ├── processes
+     └── tools
+ ├── utils
+ │   └── consts.ts
+ ├── app.module.ts
+ └── main.ts
+```
+
+- **Controller** → Defines REST endpoints.
+- **Service** → Business logic and in-memory persistence.
+- **Module** → Groups controllers and services.
+- **Utils** → Shared constants and helpers.
+
+---
+
+<a id="entities"></a>
+
+## 🧩 Entities
+
+The backend works with the following entities:
+
+- **Flow** → Metadata container to assemble the process graph.
+- **Department** → Represents an area of the company.
+- **Process** → Represents a process or subprocess (can connect hierarchically).
+- **Owner** → A responsible person or team.
+- **Tool** → External or internal tool used in a process.
+- **Document** → Documentation that supports processes.
+- **Edge** → Connection between nodes.
+
+### Relationship rules
+
+- A **Process** can connect to any node (including another Process).
+- **Department**, **Document**, **Owner**, and **Tool** always connect to a **Process**.
+
+---
+
+## 📝 License
+
+This project is under the MIT license.  
+See the [license page](https://opensource.org/licenses/MIT) for more details.
