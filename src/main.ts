@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,8 +16,19 @@ async function bootstrap() {
     credentials: process.env.CORS_CREDENTIALS === 'true',
   });
 
-  const port = process.env.PORT || 8080;
+  const config = new DocumentBuilder()
+    .setTitle('Process Flow API')
+    .setDescription(
+      'API for documenting and viewing processes, documents, owners and tools.',
+    )
+    .setVersion('1.0')
+    .addTag('process-flow')
+    .build();
 
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
+
+  const port = process.env.PORT || 8080;
   console.log(`Server running on port ${port}`);
 
   await app.listen(port);
