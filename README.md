@@ -80,7 +80,7 @@ npm run start:dev
 Documentation will be available at:
 
 ```
-http://localhost:3000/docs
+http://localhost:8080/docs
 ```
 
 ---
